@@ -8,7 +8,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: "https://teacher-site.vercel.app/",
+    origin: "https://teacher-site.vercel.app", // Removed trailing slash
     methods: ["GET", "POST"]
   }
 });
@@ -21,7 +21,7 @@ io.on('connection', (socket) => {
   socket.on('createGame', (playerName) => {
     const gameCode = uuidv4().substr(0, 6);
     games[gameCode] = {
-      players: [{id: socket.id, name: playerName, score: 0}],
+      players: [{ id: socket.id, name: playerName, score: 0 }],
       currentPlayerIndex: 0,
       currentQuestionIndex: 0,
       state: 'waiting',
@@ -33,9 +33,9 @@ io.on('connection', (socket) => {
     io.to(gameCode).emit('playerList', games[gameCode].players);
   });
 
-  socket.on('joinGame', ({gameCode, playerName}) => {
+  socket.on('joinGame', ({ gameCode, playerName }) => {
     if (games[gameCode] && games[gameCode].state === 'waiting') {
-      games[gameCode].players.push({id: socket.id, name: playerName, score: 0});
+      games[gameCode].players.push({ id: socket.id, name: playerName, score: 0 });
       socket.join(gameCode);
       socket.emit('gameCode', gameCode);
       io.to(gameCode).emit('gameState', 'waiting');
@@ -89,7 +89,7 @@ function leaveGame(socket, gameCode) {
   const game = games[gameCode];
   game.players = game.players.filter(p => p.id !== socket.id);
   socket.leave(gameCode);
-  
+
   if (game.players.length === 0) {
     clearTimeout(game.timer);
     delete games[gameCode];
@@ -105,7 +105,7 @@ function nextQuestion(gameCode) {
   const game = games[gameCode];
   game.currentPlayerIndex = (game.currentPlayerIndex + 1) % game.players.length;
   game.currentQuestionIndex++;
-  
+
   if (game.currentQuestionIndex >= questions.length) {
     endGame(gameCode);
   } else {
