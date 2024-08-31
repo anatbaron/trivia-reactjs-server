@@ -8,9 +8,12 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: "https://teacher-site.vercel.app", // Removed trailing slash
-    methods: ["GET", "POST"]
-  }
+    origin: "https://teacher-site.vercel.app", // Use the exact origin
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Authorization"],
+    credentials: true,
+  },
+  transports: ['websocket', 'polling']
 });
 
 const games = {};
