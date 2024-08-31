@@ -8,7 +8,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: "https://teacher-site.vercel.app", // Removed trailing slash
+    origin: "https://teacher-site.vercel.app:3000", // Removed trailing slash
     methods: ["GET", "POST"]
   }
 });
