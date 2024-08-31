@@ -8,7 +8,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: "https://teacher-site.vercel.app:3000", // Removed trailing slash
+    origin: "https://teacher-site.vercel.app", // Removed trailing slash
     methods: ["GET", "POST"]
   }
 });
@@ -144,5 +144,5 @@ app.get('/', (req, res) => {
   res.send('Welcome to the Trivia Game Server');
 });
 
-const port = 3001;
+const port = process.env.PORT || 3001;
 server.listen(port, () => console.log(`Server running on port ${port}`));
