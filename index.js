@@ -139,5 +139,10 @@ function endGame(gameCode) {
   delete games[gameCode];
 }
 
+// Serve a simple message at the root URL
+app.get('/', (req, res) => {
+  res.send('Welcome to the Trivia Game Server');
+});
+
 const port = 3001;
 server.listen(port, () => console.log(`Server running on port ${port}`));
