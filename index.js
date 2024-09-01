@@ -6,9 +6,10 @@ const questions = require('./questions.json');
 
 const app = express();
 const server = http.createServer(app);
+
 const io = socketIo(server, {
   cors: {
-    origin: "https://teacher-site.vercel.app", // Use the exact origin
+    origin: "http://localhost:3000", // Use the exact origin
     methods: ["GET", "POST"],
     allowedHeaders: ["Authorization"],
     credentials: true,
